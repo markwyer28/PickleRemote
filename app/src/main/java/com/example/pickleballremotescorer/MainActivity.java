@@ -13,7 +13,7 @@ import java.util.Deque;
 
 public class MainActivity extends Activity {
 
-    private TextView scoreA, scoreB, serveA, serveB, status;
+    private TextView scoreA, scoreB, serveA, serveB, serverA1, serverA2, serverB1, serverB2, status;
     private int a = 0, b = 0;
     private int servingTeam = 0;
     private int server = 1;
@@ -57,6 +57,8 @@ public class MainActivity extends Activity {
 
         scoreA=findViewById(R.id.scoreA); scoreB=findViewById(R.id.scoreB);
         serveA=findViewById(R.id.serveA); serveB=findViewById(R.id.serveB);
+        serverA1=findViewById(R.id.serverA1); serverA2=findViewById(R.id.serverA2);
+        serverB1=findViewById(R.id.serverB1); serverB2=findViewById(R.id.serverB2);
         status=findViewById(R.id.status);
 
         findViewById(R.id.pointButton).setOnClickListener(v->{
@@ -143,12 +145,35 @@ public class MainActivity extends Activity {
                 .setNegativeButton("Cancel",null).show();
     }
 
+    private void updateServerIndicators(){
+        final int GREEN=Color.parseColor("#39E69D");
+        final int ACTIVE_TEXT=Color.parseColor("#04140E");
+        final int INACTIVE=Color.parseColor("#1B2B42");
+        final int INACTIVE_TEXT=Color.parseColor("#71859E");
+
+        TextView[] indicators={serverA1,serverA2,serverB1,serverB2};
+        for(TextView v:indicators){
+            v.setBackgroundColor(INACTIVE);
+            v.setTextColor(INACTIVE_TEXT);
+        }
+
+        if(!gameOver){
+            TextView active;
+            if(servingTeam==0) active=(server==1 ? serverA1 : serverA2);
+            else active=(server==1 ? serverB1 : serverB2);
+
+            active.setBackgroundColor(GREEN);
+            active.setTextColor(ACTIVE_TEXT);
+        }
+    }
+
     private void updateDisplay(){
         final int GREEN=Color.parseColor("#39E69D");
         final int MUTED=Color.parseColor("#657892");
 
         scoreA.setText(String.valueOf(a));
         scoreB.setText(String.valueOf(b));
+        updateServerIndicators();
 
         if(gameOver){
             serveA.setText(a>b ? "WINNER" : "RECEIVING");
@@ -160,14 +185,14 @@ public class MainActivity extends Activity {
         }
 
         if(servingTeam==0){
-            serveA.setText("●  SERVING - SERVER "+server);
+            serveA.setText("●  SERVING");
             serveA.setTextColor(GREEN);
             serveB.setText("RECEIVING");
             serveB.setTextColor(MUTED);
         }else{
             serveA.setText("RECEIVING");
             serveA.setTextColor(MUTED);
-            serveB.setText("●  SERVING - SERVER "+server);
+            serveB.setText("●  SERVING");
             serveB.setTextColor(GREEN);
         }
 

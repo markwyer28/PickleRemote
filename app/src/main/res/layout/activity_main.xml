@@ -22,8 +22,20 @@
                 android:layout_weight="1" android:gravity="center" android:text="0"
                 android:textColor="#FFFFFF" android:textSize="118sp" android:textStyle="bold"/>
             <TextView android:id="@+id/serveA" android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="●  SERVING - SERVER 1" android:textColor="#39E69D"
-                android:textSize="18sp" android:textStyle="bold"/>
+                android:text="●  SERVING" android:textColor="#39E69D"
+                android:textSize="18sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="44dp"
+                android:orientation="horizontal" android:gravity="center">
+                <TextView android:id="@+id/serverA1" android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:gravity="center" android:text="SERVER 1"
+                    android:textStyle="bold" android:textSize="15sp" android:textColor="#04140E"
+                    android:background="#39E69D"/>
+                <Space android:layout_width="8dp" android:layout_height="1dp"/>
+                <TextView android:id="@+id/serverA2" android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:gravity="center" android:text="SERVER 2"
+                    android:textStyle="bold" android:textSize="15sp" android:textColor="#71859E"
+                    android:background="#1B2B42"/>
+            </LinearLayout>
         </LinearLayout>
         <Space android:layout_width="14dp" android:layout_height="match_parent"/>
         <LinearLayout android:id="@+id/teamBBox" android:layout_width="0dp" android:layout_height="match_parent"
@@ -37,7 +49,19 @@
                 android:textColor="#FFFFFF" android:textSize="118sp" android:textStyle="bold"/>
             <TextView android:id="@+id/serveB" android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:text="RECEIVING" android:textColor="#657892"
-                android:textSize="18sp" android:textStyle="bold"/>
+                android:textSize="18sp" android:textStyle="bold" android:layout_marginBottom="8dp"/>
+            <LinearLayout android:layout_width="match_parent" android:layout_height="44dp"
+                android:orientation="horizontal" android:gravity="center">
+                <TextView android:id="@+id/serverB1" android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:gravity="center" android:text="SERVER 1"
+                    android:textStyle="bold" android:textSize="15sp" android:textColor="#71859E"
+                    android:background="#1B2B42"/>
+                <Space android:layout_width="8dp" android:layout_height="1dp"/>
+                <TextView android:id="@+id/serverB2" android:layout_width="0dp" android:layout_height="match_parent"
+                    android:layout_weight="1" android:gravity="center" android:text="SERVER 2"
+                    android:textStyle="bold" android:textSize="15sp" android:textColor="#71859E"
+                    android:background="#1B2B42"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
