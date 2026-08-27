@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.KeyEvent;
+import android.widget.Button;
 import android.widget.TextView;
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -13,11 +14,9 @@ import java.util.Deque;
 public class MainActivity extends Activity {
 
     private TextView scoreA, scoreB, serveA, serveB, status;
-
-    private int a = 0;
-    private int b = 0;
+    private int a = 0, b = 0;
     private int servingTeam = 0; // 0 = Team A, 1 = Team B
-    private int server = 1;      // 1 or 2
+    private int server = 1;
     private boolean gameOver = false;
 
     private final Handler handler = new Handler(Looper.getMainLooper());
@@ -31,43 +30,29 @@ public class MainActivity extends Activity {
     private final Deque<State> history = new ArrayDeque<>();
 
     private static class State {
-        int a, b, servingTeam, server;
+        int a, b, team, server;
         boolean gameOver;
-
-        State(int a, int b, int servingTeam, int server, boolean gameOver) {
-            this.a = a;
-            this.b = b;
-            this.servingTeam = servingTeam;
-            this.server = server;
-            this.gameOver = gameOver;
+        State(int a, int b, int team, int server, boolean gameOver) {
+            this.a=a; this.b=b; this.team=team; this.server=server; this.gameOver=gameOver;
         }
     }
 
-    // Single press is delayed briefly so we can tell it apart from a double press.
     private final Runnable singlePress = new Runnable() {
-        @Override
-        public void run() {
+        @Override public void run() {
             if (!pendingSingle || longTriggered) return;
-
             pendingSingle = false;
-
-            // After the game has finished, one short press starts the next game.
             if (gameOver) {
                 startNewGame();
                 return;
             }
-
             saveState();
             addPoint();
         }
     };
 
-    // Long press undoes the last completed scoring/server action.
     private final Runnable longPress = new Runnable() {
-        @Override
-        public void run() {
+        @Override public void run() {
             if (keyDownAt == 0L) return;
-
             longTriggered = true;
             pendingSingle = false;
             handler.removeCallbacks(singlePress);
@@ -75,8 +60,7 @@ public class MainActivity extends Activity {
         }
     };
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -86,61 +70,34 @@ public class MainActivity extends Activity {
         serveB = findViewById(R.id.serveB);
         status = findViewById(R.id.status);
 
+        // Score panels are display-only. Points can only be added with this button or remote.
+        findViewById(R.id.pointButton).setOnClickListener(v -> {
+            if (gameOver) {
+                startNewGame();
+            } else {
+                saveState();
+                addPoint();
+            }
+        });
+
         findViewById(R.id.undo).setOnClickListener(v -> undo());
-
         findViewById(R.id.switchServer).setOnClickListener(v -> {
-            if (!gameOver) {
-                saveState();
-                nextServer();
-            }
+            if (!gameOver) { saveState(); nextServer(); }
         });
-
-        findViewById(R.id.switchTeam).setOnClickListener(v -> {
-            if (!gameOver) {
-                saveState();
-                servingTeam = 1 - servingTeam;
-                server = 1;
-                updateDisplay();
-            }
-        });
-
         findViewById(R.id.reset).setOnClickListener(v -> confirmReset());
-
-        // Manual score correction remains available by tapping a team's score panel.
-        findViewById(R.id.teamABox).setOnClickListener(v -> {
-            if (!gameOver) {
-                saveState();
-                a++;
-                updateDisplay();
-                checkWinner();
-            }
-        });
-
-        findViewById(R.id.teamBBox).setOnClickListener(v -> {
-            if (!gameOver) {
-                saveState();
-                b++;
-                updateDisplay();
-                checkWinner();
-            }
-        });
 
         updateDisplay();
     }
 
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
+    @Override public boolean dispatchKeyEvent(KeyEvent event) {
         int code = event.getKeyCode();
-
         boolean remoteKey =
                 code == KeyEvent.KEYCODE_VOLUME_UP ||
                 code == KeyEvent.KEYCODE_VOLUME_DOWN ||
                 code == KeyEvent.KEYCODE_CAMERA ||
                 code == KeyEvent.KEYCODE_ENTER;
 
-        if (!remoteKey) {
-            return super.dispatchKeyEvent(event);
-        }
+        if (!remoteKey) return super.dispatchKeyEvent(event);
 
         if (event.getAction() == KeyEvent.ACTION_DOWN) {
             if (event.getRepeatCount() == 0) {
@@ -148,7 +105,7 @@ public class MainActivity extends Activity {
                 longTriggered = false;
                 handler.postDelayed(longPress, LONG_PRESS_MS);
             }
-            return true; // Stop Android changing the volume.
+            return true;
         }
 
         if (event.getAction() == KeyEvent.ACTION_UP) {
@@ -160,8 +117,6 @@ public class MainActivity extends Activity {
                 return true;
             }
 
-            // Once a game is over, any normal single press starts a clean new game.
-            // We still use the normal short delay to distinguish it from a long press.
             if (gameOver) {
                 pendingSingle = true;
                 handler.removeCallbacks(singlePress);
@@ -170,90 +125,58 @@ public class MainActivity extends Activity {
             }
 
             if (pendingSingle) {
-                // Second short press: this is a double press.
-                // Cancel the pending point and move to the next server.
                 pendingSingle = false;
                 handler.removeCallbacks(singlePress);
-
                 saveState();
                 nextServer();
             } else {
                 pendingSingle = true;
                 handler.postDelayed(singlePress, DOUBLE_PRESS_MS);
             }
-
             return true;
         }
-
         return true;
     }
 
     private void saveState() {
-        history.push(new State(a, b, servingTeam, server, gameOver));
+        history.push(new State(a,b,servingTeam,server,gameOver));
     }
 
     private void undo() {
         if (history.isEmpty()) return;
-
-        State previous = history.pop();
-        a = previous.a;
-        b = previous.b;
-        servingTeam = previous.servingTeam;
-        server = previous.server;
-        gameOver = previous.gameOver;
-
+        State s = history.pop();
+        a=s.a; b=s.b; servingTeam=s.team; server=s.server; gameOver=s.gameOver;
         updateDisplay();
     }
 
     private void addPoint() {
-        // Traditional side-out pickleball: only the serving team scores.
-        if (servingTeam == 0) {
-            a++;
-        } else {
-            b++;
-        }
-
+        if (servingTeam == 0) a++; else b++;
         updateDisplay();
         checkWinner();
     }
 
     private void nextServer() {
-        /*
-         Doubles rotation:
-           Team A Server 1
-           Team A Server 2
-           Team B Server 1
-           Team B Server 2
-           Team A Server 1
-           ...
-        */
         if (server == 1) {
             server = 2;
         } else {
             server = 1;
             servingTeam = 1 - servingTeam;
         }
-
         updateDisplay();
     }
 
     private void checkWinner() {
-        if ((a >= 11 || b >= 11) && Math.abs(a - b) >= 2) {
+        if ((a >= 11 || b >= 11) && Math.abs(a-b) >= 2) {
             gameOver = true;
             updateDisplay();
         }
     }
 
     private void startNewGame() {
-        a = 0;
-        b = 0;
-        servingTeam = 0;
-        server = 1;
-        gameOver = false;
+        a=0; b=0; servingTeam=0; server=1; gameOver=false;
         history.clear();
-        pendingSingle = false;
-        longTriggered = false;
-
+        pendingSingle=false;
+        longTriggered=false;
         updateDisplay();
     }
 
@@ -261,8 +184,8 @@ public class MainActivity extends Activity {
         new AlertDialog.Builder(this)
                 .setTitle("Reset game?")
                 .setMessage("The score will return to 0–0.")
-                .setPositiveButton("Reset", (dialog, which) -> startNewGame())
-                .setNegativeButton("Cancel", null)
+                .setPositiveButton("Reset",(d,w)->startNewGame())
+                .setNegativeButton("Cancel",null)
                 .show();
     }
 
@@ -271,24 +194,14 @@ public class MainActivity extends Activity {
         scoreB.setText(String.valueOf(b));
 
         if (gameOver) {
-            String winner = a > b ? "TEAM A WINS" : "TEAM B WINS";
-            serveA.setText("");
-            serveB.setText("");
-            status.setText(winner + " • Press remote once for new game");
+            serveA.setText(a>b ? "WINNER" : "");
+            serveB.setText(b>a ? "WINNER" : "");
+            status.setText((a>b ? "TEAM A" : "TEAM B") + " WINS  •  Press POINT or remote once for new game");
             return;
         }
 
-        if (servingTeam == 0) {
-            serveA.setText("SERVING • SERVER " + server);
-            serveB.setText("");
-        } else {
-            serveA.setText("");
-            serveB.setText("SERVING • SERVER " + server);
-        }
-
-        status.setText(
-                "Serving: Team " + (servingTeam == 0 ? "A" : "B") +
-                " • Server " + server
-        );
+        serveA.setText(servingTeam==0 ? "●  SERVING  •  SERVER " + server : "WAITING");
+        serveB.setText(servingTeam==1 ? "●  SERVING  •  SERVER " + server : "WAITING");
+        status.setText("FIRST TO 11  •  WIN BY 2");
     }
 }
