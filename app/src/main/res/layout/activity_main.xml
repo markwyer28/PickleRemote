@@ -1,189 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:background="#07111F">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="PICKLEBALL"
-            android:textColor="#FFFFFF"
-            android:textStyle="bold"
-            android:textSize="22sp"
-            android:letterSpacing="0.12"/>
-
-        <TextView
-            android:id="@+id/status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FIRST TO 11  •  WIN BY 2"
-            android:textColor="#91A5BF"
-            android:textSize="13sp"/>
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical" android:padding="16dp" android:background="#07111F">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center_vertical" android:paddingBottom="10dp">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1"
+            android:text="PICKLEBALL" android:textColor="#FFFFFF" android:textStyle="bold"
+            android:textSize="22sp" android:letterSpacing="0.12"/>
+        <TextView android:id="@+id/status" android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="FIRST TO 11  •  WIN BY 2" android:textColor="#91A5BF" android:textSize="13sp"/>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
-
-        <LinearLayout
-            android:id="@+id/teamABox"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="14dp"
-            android:background="@drawable/score_panel">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TEAM A"
-                android:textColor="#AAB9CC"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.08"/>
-
-            <TextView
-                android:id="@+id/scoreA"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="#FFFFFF"
-                android:textSize="118sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/serveA"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="●  SERVING  •  SERVER 1"
-                android:textColor="#39E69D"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+    <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
+        android:layout_weight="1" android:orientation="horizontal">
+        <LinearLayout android:id="@+id/teamABox" android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center"
+            android:padding="14dp" android:background="@drawable/score_panel">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="TEAM A" android:textColor="#AAB9CC" android:textSize="24sp"
+                android:textStyle="bold" android:letterSpacing="0.08"/>
+            <TextView android:id="@+id/scoreA" android:layout_width="wrap_content" android:layout_height="0dp"
+                android:layout_weight="1" android:gravity="center" android:text="0"
+                android:textColor="#FFFFFF" android:textSize="118sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/serveA" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="●  SERVING - SERVER 1" android:textColor="#39E69D"
+                android:textSize="18sp" android:textStyle="bold"/>
         </LinearLayout>
-
         <Space android:layout_width="14dp" android:layout_height="match_parent"/>
-
-        <LinearLayout
-            android:id="@+id/teamBBox"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center"
-            android:padding="14dp"
-            android:background="@drawable/score_panel">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TEAM B"
-                android:textColor="#AAB9CC"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:letterSpacing="0.08"/>
-
-            <TextView
-                android:id="@+id/scoreB"
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="0"
-                android:textColor="#FFFFFF"
-                android:textSize="118sp"
-                android:textStyle="bold"/>
-
-            <TextView
-                android:id="@+id/serveB"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="WAITING"
-                android:textColor="#657892"
-                android:textSize="18sp"
-                android:textStyle="bold"/>
+        <LinearLayout android:id="@+id/teamBBox" android:layout_width="0dp" android:layout_height="match_parent"
+            android:layout_weight="1" android:orientation="vertical" android:gravity="center"
+            android:padding="14dp" android:background="@drawable/score_panel">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="TEAM B" android:textColor="#AAB9CC" android:textSize="24sp"
+                android:textStyle="bold" android:letterSpacing="0.08"/>
+            <TextView android:id="@+id/scoreB" android:layout_width="wrap_content" android:layout_height="0dp"
+                android:layout_weight="1" android:gravity="center" android:text="0"
+                android:textColor="#FFFFFF" android:textSize="118sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/serveB" android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="RECEIVING" android:textColor="#657892"
+                android:textSize="18sp" android:textStyle="bold"/>
         </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:paddingTop="12dp">
-
-        <Button
-            android:id="@+id/pointButton"
-            android:layout_width="0dp"
-            android:layout_height="62dp"
-            android:layout_weight="2.2"
-            android:text="+  POINT"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="#04140E"
-            android:backgroundTint="#39E69D"/>
-
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="horizontal" android:gravity="center" android:paddingTop="12dp">
+        <Button android:id="@+id/pointButton" android:layout_width="0dp" android:layout_height="62dp"
+            android:layout_weight="2.2" android:text="+  POINT" android:textSize="20sp"
+            android:textStyle="bold" android:textColor="#04140E" android:backgroundTint="#39E69D"/>
         <Space android:layout_width="10dp" android:layout_height="1dp"/>
-
-        <Button
-            android:id="@+id/switchServer"
-            android:layout_width="0dp"
-            android:layout_height="62dp"
-            android:layout_weight="1"
-            android:text="NEXT SERVER"
-            android:textSize="13sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#1B2B42"/>
-
+        <Button android:id="@+id/switchServer" android:layout_width="0dp" android:layout_height="62dp"
+            android:layout_weight="1" android:text="NEXT SERVER" android:textSize="13sp"
+            android:textStyle="bold" android:textColor="#FFFFFF" android:backgroundTint="#1B2B42"/>
         <Space android:layout_width="10dp" android:layout_height="1dp"/>
-
-        <Button
-            android:id="@+id/undo"
-            android:layout_width="0dp"
-            android:layout_height="62dp"
-            android:layout_weight="1"
-            android:text="UNDO"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:backgroundTint="#1B2B42"/>
-
+        <Button android:id="@+id/undo" android:layout_width="0dp" android:layout_height="62dp"
+            android:layout_weight="1" android:text="UNDO" android:textSize="14sp"
+            android:textStyle="bold" android:textColor="#FFFFFF" android:backgroundTint="#1B2B42"/>
         <Space android:layout_width="10dp" android:layout_height="1dp"/>
-
-        <Button
-            android:id="@+id/reset"
-            android:layout_width="0dp"
-            android:layout_height="62dp"
-            android:layout_weight="0.8"
-            android:text="RESET"
-            android:textSize="13sp"
-            android:textColor="#B6C3D3"
-            android:backgroundTint="#132034"/>
+        <Button android:id="@+id/reset" android:layout_width="0dp" android:layout_height="62dp"
+            android:layout_weight="0.8" android:text="RESET" android:textSize="13sp"
+            android:textColor="#B6C3D3" android:backgroundTint="#132034"/>
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:paddingTop="8dp"
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center" android:paddingTop="8dp"
         android:text="REMOTE   •   SINGLE: POINT   •   DOUBLE: NEXT SERVER   •   HOLD: UNDO"
-        android:textColor="#60758F"
-        android:textSize="11sp"
-        android:letterSpacing="0.04"/>
+        android:textColor="#60758F" android:textSize="11sp" android:letterSpacing="0.04"/>
 </LinearLayout>
